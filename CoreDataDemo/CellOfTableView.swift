@@ -11,9 +11,14 @@ import UIKit
 class CellOfTableView: UITableViewCell {
 
     
-    @IBOutlet weak var userNamelabel: UILabel!
+    @IBOutlet weak var emaillabel: UILabel!
     
-
+    @IBOutlet weak var passwordLabel: UILabel!
+    
+    @IBOutlet weak var contactNoLabel: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
