@@ -22,8 +22,7 @@ class MainScreenVC: UIViewController {
         
     }
     
-    
-    
+
     // %%%%%%%%%%  Search Btn Action %%%%%%%%%%%%%%%%%%%%%
     @IBAction func searchBtnTap(_ sender: UIButton) {
         

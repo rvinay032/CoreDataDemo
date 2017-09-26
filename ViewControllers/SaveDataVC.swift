@@ -35,7 +35,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
-    // %%%%%%%%%%%%%%%%%%%%%%%% Save Button %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    // Property for data validation ------------------------------
+    
     
     var isDataValid : Bool {
         
@@ -77,6 +78,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // %%%%%%%%%%%%%%%%%%%%%%%% Save Button %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     @IBAction func saveBtntap(_ sender: UIButton) {
         
@@ -93,10 +95,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler:
                 {
                     action -> Void in
-                    self.emailTextField.text = ""
-                    self.passwordTextField.text = ""
-                    self.contactNoTextField.text = ""
-                    self.emailTextField.becomeFirstResponder()
+                    self.emailTextField.text?.removeAll()
+                    self.passwordTextField.text?.removeAll()
+                    self.contactNoTextField.text?.removeAll()
             }
             ))
             
@@ -123,6 +124,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         contactNoTextField.delegate = self
         errorLabel.isHidden = true
         passwordErrorLabel.isHidden = true
+        navigationController?.isToolbarHidden = true
         
         if let s = users
         {
@@ -137,7 +139,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.addTarget(self, action: #selector(textFieldDidEnd(textField:)), for: .editingDidEnd)
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isToolbarHidden = true
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -147,6 +152,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 extension ViewController {    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
         self.saveBtnOut.isEnabled = true
         
         return true
@@ -209,5 +215,19 @@ extension ViewController {
         },completion: nil)
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField === self.contactNoTextField {
+            if contactNoTextField.placeholder == "contactNo" {
+                let maxLength = 10
+                let currentString: NSString = contactNoTextField.text! as NSString
+                let newString: NSString =
+                    currentString.replacingCharacters(in: range, with: string) as NSString
+                return newString.length <= maxLength
+            }
+            
+        }
+        return true
+    }
 }
 
